@@ -1,7 +1,7 @@
-const express = require('express'),
+const express = require('express');
   morgan = require('morgan');
-  fs = require('fs')
-  path = require('path')
+  fs = require('fs');
+  path = require('path');
 
 const app = express();
 
@@ -16,11 +16,46 @@ app.use(express.static('public'));
 
 let topMovies = [
     {
-        title: 'The Grand Budapest Hotel',
-        director: 'Wes Anderson'
+      title: 'The Grand Budapest Hotel',
+      director: 'Wes Anderson'
+    },
+    {
+      title: 'Titanic',
+      director: 'James Cameron'
+    },
+    {
+      title: 'Cat on a Hot Tin Roof',
+      director: 'Richard Brooks'
+    },
+    {
+      title: 'Across the Universe',
+      director: 'Julie Taymor'
+    },
+    {
+      title: 'Barefoot in the Park',
+      director: 'Gene Saks'
+    },
+    {
+      title: 'The Dark Knight',
+      director: 'Christopher Nolan'
+    },
+    {
+      title: 'Splendor in the Grass',
+      director: 'Elia Kazan'
+    },
+    {
+      title: 'The Apartment',
+      director: 'Billy Wilder'
+    },
+    {
+      title: 'Cool Hand Luke',
+      director: 'Stuart Rosenberg'
+    },
+    {
+      title: 'The Philedelphia Story',
+      director: 'George Cukor'
     }
 ]
-//add more movies
 
 
 app.get('/', (req, res) => {
@@ -31,10 +66,11 @@ app.get('/', (req, res) => {
     res.sendFile('public/documentation.html', { root: __dirname });
   });
 
-app.get('/movies', (req, res) => {
+  app.get('/movies', (req, res) => {
     res.json(topMovies);
   });
 
+  
 
   app.use((err, req, res, next) => {
     console.error(err.stack);
