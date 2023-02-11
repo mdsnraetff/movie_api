@@ -3,3 +3,68 @@ Movie API
 This API lets users search and save information about their favorite movies, directors, and genres. Users can sign up and keep a list of their favorite movies!
 
 
+Endpoints:
+
+Read: 
+
+Returns list of movies -
+Endpoint - /movies
+
+app.get('/movies',(req, res) => {
+    res.status(200).json(topMovies)
+})
+
+Returns title of searched movies -
+Endpoint - /movies/[movieName]
+
+app.get('/movies/:title',(req, res) => {
+    const {title} = req.params;
+    const movie = movies.find(movie => movie.Title === title);
+
+    if (move) {
+        res.status(200).json(topMovies);
+    } else {
+        res.status(400).send('This movie does not exist')
+    }
+})
+
+Returns genre -
+
+app.get('/movies/genre/:genreName',(req, res) => {
+    const {genreName} = req.params;
+    const genre = movies.find(movie => movie.Genre.Name === genreName).Genre;
+
+    if (genre) {
+        res.status(200).json(genre);
+    } else {
+        res.status(400).send('This genre does not exist')
+    }
+})
+
+Returns director by name -
+
+app.get('/movies/directors/:directorName',(req, res) => {
+    const {directorName} = req.params;
+    const director = movies.find(movie => movie.Director.Name === directorName).Director;
+
+    if (director) {
+        res.status(200).json(director);
+    } else {
+        res.status(400).send('This director does not exist')
+    }
+})
+
+
+Create:
+
+app.post('/users', (req, res) => {
+    const newUser = req.body;
+
+    if (newUser.name) {
+        newUser.id = uuid.v4();
+        users.push(newUser);
+        res.status(201).json(newUser)
+    } else {
+        res.status(400).send('User needs a name')
+    }
+})

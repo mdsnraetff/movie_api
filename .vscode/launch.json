@@ -1,0 +1,12 @@
+{
+    "configurations": [
+
+        {
+            "type": "chrome",
+            "name": "https://localhost:3000",
+            "request": "launch",
+            "url": "https://localhost:3000",
+            "webRoot": "movie_api1"
+        }
+    ]
+}
