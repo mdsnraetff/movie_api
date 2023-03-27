@@ -6,6 +6,7 @@ const express = require('express');
   path = require('path');
 
 const app = express();
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
 const mongoose = require('mongoose');
@@ -68,10 +69,10 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
   });
 
 //Returns Genre (MU)
-app.get('/movies/genre/:Name' ,(req, res) => {
-  Genre.findOne({ Name: req.params.Name })
-  .then((genre) => {
-    res.json(genre.Description);
+app.get('/movies/genre/:genreName' ,(req, res) => {
+  Movies.findOne({ 'Genre.Name' : req.params.genreName })
+  .then((movie) => {
+    res.json(movie.Genre);
   })
   .catch((err) => {
     console.error(err);
@@ -80,10 +81,10 @@ app.get('/movies/genre/:Name' ,(req, res) => {
 });
 
 //Returns Director name (MU)
-  app.get('/movies/director/:Name', (req, res) => {
-    Director.findOne({ Name: req.params.Name })
-    .then((director) => {
-      res.json(director);
+  app.get('/movies/director/:directorName', (req, res) => {
+    Movies.findOne({ 'Director.Name' : req.params.directorName })
+    .then((movie) => {
+      res.json(movie.Director);
     })
     .catch((err) => {
       console.error(err);
