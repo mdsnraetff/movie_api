@@ -6,9 +6,10 @@ const express = require('express');
   path = require('path');
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true}));
 
 const mongoose = require('mongoose');
-const Models = require('/Users/madisontaff/Desktop/movie_api1/models.js');
+const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -22,10 +23,11 @@ app.use(morgan('common'));
 
 app.use(express.static('public'));
 
-app.use(bodyParser.json());
 
 
-
+let auth = require('./auth.js')(app);
+const passport = require('passport');
+require('./passport.js');
 
 app.get('/', (req, res) => {
     res.send('Welcome to MyFlix!');
@@ -43,7 +45,7 @@ app.get('/', (req, res) => {
   });
 
 //Returns list of movies (MU)
-  app.get("/movies", (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
     Movies.find()
       .then((movies) => {
         res.status(201).json(movies);
@@ -54,7 +56,7 @@ app.get('/', (req, res) => {
   });
 
 //Returns Title (MU)
-  app.get("/movies/:Title" ,(req, res) => {
+  app.get('/movies/:Title' ,(req, res) => {
     Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
       res.json(movie);
@@ -66,8 +68,8 @@ app.get('/', (req, res) => {
   });
 
 //Returns Genre (MU)
-app.get("/genre/:Name" ,(req, res) => {
-  Genres.findOne({ Name: req.params.Name })
+app.get('/movies/genre/:Name' ,(req, res) => {
+  Genre.findOne({ Name: req.params.Name })
   .then((genre) => {
     res.json(genre.Description);
   })
@@ -78,8 +80,8 @@ app.get("/genre/:Name" ,(req, res) => {
 });
 
 //Returns Director name (MU)
-  app.get("/director/:Name", (req, res) => {
-    Directors.findOne({ Name: req.params.Name })
+  app.get('/movies/director/:Name', (req, res) => {
+    Director.findOne({ Name: req.params.Name })
     .then((director) => {
       res.json(director);
     })
