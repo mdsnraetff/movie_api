@@ -45,8 +45,8 @@ app.get('/', (req, res) => {
     res.status(500).send('Uh oh!');
   });
 
-//Returns list of movies (MU)
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+//Returns list of movies (MU)  passport.authenticate('jwt', { session: false }),
+app.get('/movies', (req, res) => {
     Movies.find()
       .then((movies) => {
         res.status(201).json(movies);
@@ -145,13 +145,14 @@ app.post('/users', (req, res) => {
   
 //Update User Name (MU)
 app.put('/users/:Username', (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
-    {
+  Users.findOneAndUpdate({ Username: req.params.Username }, 
+    { 
+      $set: {
       Username: req.body.Username,
       Password: req.body.Password,
       Email: req.body.Email,
       Birthday: req.body.Birthday
-    }
+    },
   },
   { new: true }, 
   (err, updatedUser) => {
@@ -181,18 +182,20 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 });
 
 //Delete movie from fav
-  app.delete('/users/:id/:movieTitle', (req, res) => {
-    const {id, movieTitle} = req.params;
-
-    let user = users.find(user => user.id == id);
-
-    if (user) {
-        user.favoriteMovies = user.favoriteMovies.filter(title => title !== movieTitle);
-        res.status(200).send(`${movieTitle} has been removed from user ${id}'s array!`);
-    } else {
-        res.status(400).send('No such user!');
-    }
-  });
+  app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+    Users.findOneAndUpdate({ Username: req.params.Username }, 
+      {$pull:{ FavoriteMovies: req.params.MovieID }},
+      {new: true},
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error: '+ err);
+        } else {
+          res.json(updatedUser);
+        }
+      });
+    });
+   
 
 //Delete User by username (MU)
 app.delete('/users/:Username', (req, res) => {
@@ -209,10 +212,6 @@ app.delete('/users/:Username', (req, res) => {
       res.status(500).send('Error: ' + err);
     });
 });
-
-
-
-
 
 
 
