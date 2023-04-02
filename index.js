@@ -9,6 +9,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
+const { check, validationResult } = require('express-validator');
+
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
@@ -24,7 +26,8 @@ app.use(morgan('common'));
 
 app.use(express.static('public'));
 
-
+const cors = require('cors');
+app.use(cors());
 
 let auth = require('./auth.js')(app);
 const passport = require('passport');
@@ -117,7 +120,18 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 });
 
 //Create User (MU)
-app.post('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post('/users', [
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+], passport.authenticate('jwt', { session: false }), (req, res) => {
+  let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -144,7 +158,18 @@ app.post('/users', passport.authenticate('jwt', { session: false }), (req, res) 
 });
   
 //Update User Name (MU)
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.put('/users/:Username', [
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+], passport.authenticate('jwt', { session: false }), (req, res) => {
+  let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    } 
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOneAndUpdate({ Username: req.params.Username }, 
     { 
       $set: {
@@ -167,6 +192,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
   
 //Add movie to favorites (MU)
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOneAndUpdate({ Username: req.params.Username }, {
      $push: { FavoriteMovies: req.params.MovieID }
    },
@@ -218,9 +244,10 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 
 
 
-  app.listen(8080, () => {
-    console.log('Your app is listening on port 8080.');
-  });
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
+});
 
 
   
