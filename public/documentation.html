@@ -85,3 +85,12 @@ Endpoints:
     Request body: None
     Response body: A message responding to the action -
         "User [ID] has been removed!"
+
+
+
+
+mongoimport --uri mongodb+srv://mdsnraetff:a5baOiI9UMy8MTUE@cfcluster1.c2wxbg6.mongodb.net/myFlixDB --collection movies --type json --file ../exported_collections/movies.json
+
+mongosh "mongodb+srv://cfcluster1.c2wxbg6.mongodb.net/myFlixDB" --apiVersion 1 --username mdsnraetff
+
+mongodb+srv://mdsnraetff:a5baOiI9UMy8MTUE@cfcluster1.c2wxbg6.mongodb.net/?retryWrites=true&w=majority
