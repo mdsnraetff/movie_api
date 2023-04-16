@@ -322,3 +322,7 @@ Timestamp: Thu Jan 05 2023 13:12:38 GMT-0500 (Eastern Standard Time)
 ::1 - - [02/Apr/2023:17:07:29 +0000] "POST /users HTTP/1.1" 201 197 "-" "PostmanRuntime/7.31.3"
 ::1 - - [02/Apr/2023:17:07:36 +0000] "GET /users HTTP/1.1" 201 1434 "-" "PostmanRuntime/7.31.3"
 127.0.0.1 - - [02/Apr/2023:20:31:13 +0000] "GET / HTTP/1.1" 200 18 "-" "PostmanRuntime/7.31.3"
+127.0.0.1 - - [03/Apr/2023:18:32:21 +0000] "GET /movies HTTP/1.1" 201 10082 "-" "PostmanRuntime/7.31.3"
+127.0.0.1 - - [03/Apr/2023:18:32:44 +0000] "POST /users HTTP/1.1" 201 239 "-" "PostmanRuntime/7.31.3"
+127.0.0.1 - - [03/Apr/2023:18:33:21 +0000] "PUT /users HTTP/1.1" 404 144 "-" "PostmanRuntime/7.31.3"
+127.0.0.1 - - [03/Apr/2023:18:33:42 +0000] "PUT /users/MadsLikesMovies HTTP/1.1" 200 193 "-" "PostmanRuntime/7.31.3"
