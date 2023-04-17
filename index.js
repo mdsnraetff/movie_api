@@ -53,7 +53,7 @@ app.use((err, req, res, next) => {
 });
 
 //Returns list of movies (MU)  
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
