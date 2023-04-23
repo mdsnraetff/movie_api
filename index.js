@@ -9,6 +9,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+let auth = require('./auth')(app);
+require('./auth.js');
+const passport = require('passport');
+require('./passport.js');
 
 const { check, validationResult } = require('express-validator');
 
@@ -32,10 +36,6 @@ app.use(express.static('public'));
 
 const cors = require('cors');
 app.use(cors());
-
-let auth = require('./auth.js')(app);
-const passport = require('passport');
-require('./passport.js');
 
 app.get('/', (req, res) => {
   res.send('Welcome to MyFlix!');
@@ -252,5 +252,6 @@ const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
   console.log('Listening on Port ' + port);
 });
+
 
 
