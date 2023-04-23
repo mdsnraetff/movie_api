@@ -1,95 +1,97 @@
 Movie API
 
-This API lets users search and save information about their favorite movies, directors, and genres. Users can sign up and keep a list of their favorite movies!
+This API lets users search and save information about their favorite movies, directors, and genres. Users can sign up
+and keep a list of their favorite movies!
 
 
 Endpoints:
 
 1. List of movies:
-    URL: /movies
-    HTTP method: GET
-    Request body: None
-    Response body: A JSON object holding data about movies -
-    Title: ""
-    Director: "" ..
-    Genre: "" ..
+URL: /movies
+HTTP method: GET
+Request body: None
+Response body: A JSON object holding data about movies -
+Title: ""
+Director: "" ..
+Genre: "" ..
 
 
 2. Find movie by title:
-    URL: /movies/[movieTitle]
-    HTTP method: GET
-    Request body: None
-    Response body: A JSON object holding data about movies -
-        Title: ""
-        Director: "" ..
-        Genre: "" ..
+URL: /movies/[movieTitle]
+HTTP method: GET
+Request body: None
+Response body: A JSON object holding data about movies -
+Title: ""
+Director: "" ..
+Genre: "" ..
 
 3. Find movie by genre:
-    URL: movies/genre/[GenreName]
-    HTTP method: GET
-    Request body: None
-    Response body: A JSON object holding data about all movies listed under that genre and the genre description -
-        Title: ""
-        Director: "" ..
-        Genre:""
-            Description: ""
+URL: movies/genre/[GenreName]
+HTTP method: GET
+Request body: None
+Response body: A JSON object holding data about all movies listed under that genre and the genre description -
+Title: ""
+Director: "" ..
+Genre:""
+Description: ""
 
 4. Find movie by director:
-    URL: movies/director/[DirectorName]
-    HTTP method: GET
-    Request body: None
-    Response body: A JSON object holding data about movies listed under that director with movie info and bio - 
-        Title: ""
-        Director: ""
-            Bio: ""
-        Genre: "" ..
+URL: movies/director/[DirectorName]
+HTTP method: GET
+Request body: None
+Response body: A JSON object holding data about movies listed under that director with movie info and bio -
+Title: ""
+Director: ""
+Bio: ""
+Genre: "" ..
 
 5. Create user:
-    URL: /users
-    HTTP method: POST
-    Request body: A JSON object holding data about the user being added - 
-        Name: ""
-        favoriteMovies: []
-    Response body: A JSON object holding the information entered plus a generated ID number - 
-        Name: ""
-        favoriteMovies: []
-        id: ""
+URL: /users
+HTTP method: POST
+Request body: A JSON object holding data about the user being added -
+Name: ""
+favoriteMovies: []
+Response body: A JSON object holding the information entered plus a generated ID number -
+Name: ""
+favoriteMovies: []
+id: ""
 
 6. Update user name:
-    URL: /users/[UserName]
-    HTTP method: PUT
-    Request body: A JSON object holding the updated user name - 
-        Name: ""
-    Response body: A JSON object holding the users original information with the updated name - 
-        Name: "[updated]"
-        favoriteMovies: ""
-        id: ""
+URL: /users/[UserName]
+HTTP method: PUT
+Request body: A JSON object holding the updated user name -
+Name: ""
+Response body: A JSON object holding the users original information with the updated name -
+Name: "[updated]"
+favoriteMovies: ""
+id: ""
 
 7. Add movies to user favorites:
-    URL: /users/[username]/movies/[MovieID]
-    HTTP method: POST
-    Request body: None
-    Response body: A message responding to the action - 
-        "[MOVIE] has been added to [ID]'s favorites!"
+URL: /users/[username]/movies/[MovieID]
+HTTP method: POST
+Request body: None
+Response body: A message responding to the action -
+"[MOVIE] has been added to [ID]'s favorites!"
 
 8. Delete movie from user favorites:
-    URL: /users/[ID]/[movieTitle]
-    HTTP method: DELETE
-    Request body: None
-    Response body: A message responding to the action - 
-     "[MOVIE] has been removed from [ID]'s favorites!"
+URL: /users/[ID]/[movieTitle]
+HTTP method: DELETE
+Request body: None
+Response body: A message responding to the action -
+"[MOVIE] has been removed from [ID]'s favorites!"
 
 9. Delete user:
-    URL: /users/[ID]
-    HTTP method: DELETE
-    Request body: None
-    Response body: A message responding to the action -
-        "User [ID] has been removed!"
+URL: /users/[ID]
+HTTP method: DELETE
+Request body: None
+Response body: A message responding to the action -
+"User [ID] has been removed!"
 
 
 
 
-mongoimport --uri mongodb+srv://mdsnraetff:a5baOiI9UMy8MTUE@cfcluster1.c2wxbg6.mongodb.net/myFlixDB --collection movies --type json --file ../exported_collections/movies.json
+mongoimport --uri mongodb+srv://mdsnraetff:a5baOiI9UMy8MTUE@cfcluster1.c2wxbg6.mongodb.net/myFlixDB --collection movies
+--type json --file ../exported_collections/userinfo.json
 
 mongosh "mongodb+srv://cfcluster1.c2wxbg6.mongodb.net/myFlixDB" --apiVersion 1 --username mdsnraetff
 
@@ -101,4 +103,3 @@ mongodb+srv://mdsnraetff:a5baOiI9UMy8MTUE@cfcluster1.c2wxbg6.mongodb.net/myFlixD
 mongodb+srv://mdsnraetff:a5baOiI9UMy8MTUE@cfcluster1.c2wxbg6.mongodb.net/myFlixDB?retryWrites=true&w=majority
 
 mongo "mongodb+srv://cfcluster1.c2wxbg6.mongodb.net/myFlixDB" --username mdsnraetff
-
