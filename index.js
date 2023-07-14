@@ -155,7 +155,7 @@ app.post('/users', [
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
-  let hashedPassword = Users.hashPassword(req.body.Password);
+  let hashPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -164,7 +164,7 @@ app.post('/users', [
         Users
           .create({
             Username: req.body.Username,
-            Password: hashedPassword,
+            Password: hashPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
@@ -193,12 +193,12 @@ app.put('/users/:Username', [
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
-  let hashedPassword = Users.hashPassword(req.body.Password);
+  let hashPassword = Users.hashPassword(req.body.Password);
   Users.findOneAndUpdate({ Username: req.params.Username },
     {
       $set: {
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday
       },
@@ -215,8 +215,7 @@ app.put('/users/:Username', [
 });
 
 //Add movie to favorites (MU)
-app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-  let hashedPassword = Users.hashPassword(req.body.Password);
+app.put('/users/:Username/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
     $push: { FavoriteMovies: req.params.MovieID }
   },
@@ -232,7 +231,7 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 });
 
 //Delete movie from fav
-app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.delete('/users/:Username/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username },
     { $pull: { FavoriteMovies: req.params.MovieID } },
     { new: true },
