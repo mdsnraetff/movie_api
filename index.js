@@ -83,7 +83,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
 
 //Returns Title (MU)
 app.get('/movies/:movieId', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Movies.findOne({ _id: req.params.movieId })
+  Movies.findOne({ "_id": req.params.movieId })
     .then((movie) => {
       res.json(movie);
     })
