@@ -17,7 +17,7 @@ let allowedOrigins = [
   "http://localhost:4200",
   "https://my-flix-movies.herokuapp.com",
   "https://my-flix-app6237.netlify.app",
-  "https://main--my-flix-app6237.netlify.app/login"
+  "https://main--my-flix-app6237.netlify.app"
 ];
 
 app.use(
